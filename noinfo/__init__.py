@@ -1,4 +1,4 @@
 from .noinfo import NoInfo
 
 def setup(bot):
-    bot.add_cog(LocalCog())
+    bot.add_cog(NoInfo())
