@@ -1,0 +1,15 @@
+{
+    "author": [],
+    "bot_version": [
+        3,
+        3,
+        0
+    ],
+    "install_msg": "Thanks for finding this useless cog and installing it.",
+    "short": "Useless cog.",
+    "description": "A useless cog.",
+    "tags": [
+        "useless"
+    ],
+    "hidden": false
+}
