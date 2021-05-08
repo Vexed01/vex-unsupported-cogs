@@ -1,0 +1,3 @@
+# vexed-unsupported-cogs
+
+go away... please...
