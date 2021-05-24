@@ -1,3 +1,4 @@
+from typing import Optional
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import box
 import aiohttp
@@ -33,6 +34,7 @@ async def get_translation(session: aiohttp.ClientSession, sl, tl, q) -> str:
 
     return as_json["sentences"][0]["trans"]
 
+
 class MadTranslate(commands.Cog):
     """Translate stuff like mad."""
 
@@ -41,21 +43,29 @@ class MadTranslate(commands.Cog):
         pass
 
     @commands.command(aliases=["mtranslate", "mtrans"])
-    async def madtranslate(self, ctx: commands.Context, *, text_to_translate: str):
-        await ctx.trigger_typing()
+    async def madtranslate(self, ctx: commands.Context, count: Optional[int] = 15, *, text_to_translate: str):
+        """Translate something into lots of languages, then back to English!
+
+        Examples:
+
+        `[p]mtrans 10 I like food.`
+        `[p]mtrans I like food.`
+        `[p]mtrans 25 I like food.`
+        """
+        if count > 50:
+            return await ctx.send("That's a bit big... How about a lower number?")
         q = text_to_translate
         session = aiohttp.ClientSession(headers=HEADERS)
-        langs = random.choices(LANGS, k=15)
+        langs = random.sample(LANGS, k=count)
         langs.append(("English", "en"))
         sl = "en"
-        for _, tl in langs:
-            try:
-                q = await get_translation(session, sl, tl, q)
-            except ForbiddenExc:
-                return await ctx.send("Something went wrong.")
-            sl = tl
-
-            await asyncio.sleep(0.1)
+        async with ctx.typing():
+            for _, tl in langs:
+                try:
+                    q = await get_translation(session, sl, tl, q)
+                except ForbiddenExc:
+                    return await ctx.send("Something went wrong.")
+                sl = tl
 
         await session.close()
         langs.insert(0, ("English", "en"))
