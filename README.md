@@ -1,3 +1,3 @@
 # vexed-unsupported-cogs
 
-go away... please...
+Stuff might break so dont use this unless you want to.

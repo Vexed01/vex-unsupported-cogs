@@ -1,0 +1,10 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Cog-Creators/Red-DiscordBot/V3/develop/schema/red_cog.schema.json",
+    "author": [
+        "Vexed (Vexed#3211)"
+    ],
+    "name": "MadTranslate",
+    "install_msg": "Note: this uses an undocumented API for Google Translate. As such, this cog may break at short notice.",
+    "description": "Translate something from English into a gazillion different languages then back to English. Uses an undocumented Google Translate API.",
+    "short": "Translate something from English into a gazillion different languages then back to English. Uses an undocumented Google Translate API."
+}
