@@ -19,7 +19,7 @@ HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36'
 }
 
-async def get_translation(session: aiohttp.ClientSession, sl, tl, q) -> str:
+async def get_translation(ctx, session: aiohttp.ClientSession, sl, tl, q) -> str:
     query = {
         'client': 'dict-chrome-ex',
         'sl'    : sl,
@@ -31,7 +31,8 @@ async def get_translation(session: aiohttp.ClientSession, sl, tl, q) -> str:
         raise ForbiddenExc
 
     as_json = await resp.json()
-
+    if sl == "auto":
+        await ctx.send(f"I've detected the input language as {as_json['src']}")
     return as_json["sentences"][0]["trans"]
 
 
@@ -58,17 +59,16 @@ class MadTranslate(commands.Cog):
         session = aiohttp.ClientSession(headers=HEADERS)
         langs = random.sample(LANGS, k=count)
         langs.append(("English", "en"))
-        sl = "en"
+        sl = "auto"
         async with ctx.typing():
             for _, tl in langs:
                 try:
-                    q = await get_translation(session, sl, tl, q)
+                    q = await get_translation(ctx, session, sl, tl, q)
                 except ForbiddenExc:
                     return await ctx.send("Something went wrong.")
                 sl = tl
 
         await session.close()
-        langs.insert(0, ("English", "en"))
         await ctx.send(
             "Original text: " + box(text_to_translate) + "Translated text: " + box(q) +
             "Languages: " + box(ARROW.join(i[0] for i in langs))
@@ -90,18 +90,17 @@ class MadTranslate(commands.Cog):
         session = aiohttp.ClientSession(headers=HEADERS)
         langs = random.sample(LANGS, k=count)
         langs.append(("English", "en"))
-        sl = "en"
+        sl = "auto"  # auto detect
         text_store = [q]
         async with ctx.typing():
             for _, tl in langs:
                 try:
-                    q = await get_translation(session, sl, tl, q)
+                    det_lang, q = await get_translation(session, sl, tl, q)
                 except ForbiddenExc:
                     return await ctx.send("Something went wrong.")
                 sl = tl
                 text_store.append(q)
 
         await session.close()
-        langs.insert(0, ("English", "en"))
         texts = "\n".join(langs[i][0] + ": " + text_store[i] for i in range(count + 2))
         await ctx.send(texts)
