@@ -33,6 +33,7 @@ async def get_translation(ctx, session: aiohttp.ClientSession, sl, tl, q) -> str
     as_json = await resp.json()
     if sl == "auto":
         await ctx.send(f"I've detected the input language as {as_json['src']}")
+        await ctx.trigger_typing()
     return as_json["sentences"][0]["trans"]
 
 
