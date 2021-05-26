@@ -75,34 +75,3 @@ class MadTranslate(commands.Cog):
             "Original text: " + box(text_to_translate) + "Translated text: " + box(q) +
             "Languages: " + box(ARROW.join(i[0] for i in langs))
         )
-
-    @commands.command()
-    async def mtransfull(self, ctx: commands.Context, count: Optional[int] = 15, *, text_to_translate: str):
-        """See the full path of a translation.
-
-        Examples:
-
-        `[p]mtransfull 10 I like food.`
-        `[p]mtransfull I like food.`
-        `[p]mtransfull 25 I like food.`
-        """
-        if count > 50:
-            return await ctx.send("That's a bit big... How about a lower number?")
-        q = text_to_translate
-        session = aiohttp.ClientSession(headers=HEADERS)
-        langs = random.sample(LANGS, k=count)
-        langs.append(("English", "en"))
-        sl = "auto"  # auto detect
-        text_store = [q]
-        async with ctx.typing():
-            for _, tl in langs:
-                try:
-                    q = await get_translation(ctx, session, sl, tl, q)
-                except ForbiddenExc:
-                    return await ctx.send("Something went wrong.")
-                sl = tl
-                text_store.append(q)
-
-        await session.close()
-        texts = "\n".join(langs[i][0] + ": " + text_store[i] for i in range(count + 1))
-        await ctx.send(texts)
