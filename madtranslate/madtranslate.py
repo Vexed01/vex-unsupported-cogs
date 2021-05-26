@@ -97,7 +97,7 @@ class MadTranslate(commands.Cog):
         async with ctx.typing():
             for _, tl in langs:
                 try:
-                    det_lang, q = await get_translation(session, sl, tl, q)
+                    det_lang, q = await get_translation(ctx, session, sl, tl, q)
                 except ForbiddenExc:
                     return await ctx.send("Something went wrong.")
                 sl = tl
