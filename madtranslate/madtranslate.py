@@ -104,5 +104,5 @@ class MadTranslate(commands.Cog):
                 text_store.append(q)
 
         await session.close()
-        texts = "\n".join(langs[i][0] + ": " + text_store[i] for i in range(count + 2))
+        texts = "\n".join(langs[i][0] + ": " + text_store[i] for i in range(count + 1))
         await ctx.send(texts)
