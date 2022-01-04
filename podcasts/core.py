@@ -11,11 +11,14 @@ from podcasts.errors import NoResults
 
 from .api import PodcastSearch
 
+from logging import getLogger
+
 try:
     from redbot.core import audio
 except ImportError:
     raise CogLoadError("This cog requires the Audio API.")
 
+log = getLogger("red.vex.podcasts.core")
 
 class Podcasts(commands.Cog):
     """Listen to podcasts in Discord."""
@@ -23,7 +26,10 @@ class Podcasts(commands.Cog):
         self.bot = bot
         self.api = PodcastSearch()
 
+        asyncio.create_task(self.async_init())
+
     async def async_init(self):
+        await self.bot.wait_until_red_ready()
         await audio.initialize(self.bot, "Podcasts", 418078199982063626)
         # and just like that my audio journey begins
 
@@ -59,8 +65,12 @@ class Podcasts(commands.Cog):
 
         track: Track = (await player.get_tracks(episode.audio_url))[0][0]
 
+        # most of the MP3 files this plays are missing the title and author, plus in terms of UI
+        # having author as the title of the podcast looks good
         track.title = episode.name
         track.author = show.name
+
+        log.debug(f"Got track {track}")
 
         await player.play(ctx.author, track=track)
 
@@ -110,6 +120,8 @@ class Podcasts(commands.Cog):
 
         episode = episodes[pred.result]
 
+        log.debug(f"Chosen episode is {episode}")
+
         player = audio.get_player(ctx.guild.id)
         if not player:
             if not ctx.author.voice.channel:
@@ -119,8 +131,12 @@ class Podcasts(commands.Cog):
 
         track: Track = (await player.get_tracks(episode.audio_url))[0][0]
 
+        # most of the MP3 files this plays are missing the title and author, plus in terms of UI
+        # having author as the title of the podcast looks good
         track.title = episode.name
         track.author = show.name
+
+        log.debug(f"Got track {track}")
 
         await player.play(ctx.author, track=track)
 

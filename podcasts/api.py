@@ -51,7 +51,9 @@ class PodcastSearch:
         name = jdata["results"][0]["collectionName"]
         itunes_id = jdata["results"][0]["collectionId"]
 
-        return Show(name=name, artwork=artwork, feed_url=feed_url, itunes_id=itunes_id)
+        show = Show(name=name, artwork=artwork, feed_url=feed_url, itunes_id=itunes_id)
+        log.debug(f"Found show {show}")
+        return show
 
     @cached(cache=TTLCache(maxsize=128, ttl=86400))  # 1 day
     async def lookup_show(self, itunes_id: str) -> Show:
@@ -70,7 +72,9 @@ class PodcastSearch:
         name = jdata["results"][0]["collectionName"]
         itunes_id = jdata["results"][0]["collectionId"]
 
-        return Show(name=name, artwork=artwork, feed_url=feed_url, itunes_id=itunes_id)
+        show = Show(name=name, artwork=artwork, feed_url=feed_url, itunes_id=itunes_id)
+        log.debug(f"Found show {show}")
+        return show
 
     @cached(cache=TTLCache(maxsize=128, ttl=60 * 15))  # 15 min
     async def get_episodes(self, feed: str) -> List[Episode]:
