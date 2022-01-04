@@ -4,7 +4,5 @@
         "Vexed (Vexed#3211)"
     ],
     "name": "MadTranslate",
-    "install_msg": "Note: this uses an undocumented API for Google Translate. As such, this cog may break at short notice.",
-    "description": "Translate something from English into a gazillion different languages then back to English. Uses an undocumented Google Translate API.",
-    "short": "Translate something from English into a gazillion different languages then back to English. Uses an undocumented Google Translate API."
+    "install_msg": "MadTranslate has been moved to my main repo at https://github.com/Vexed01/Vex-Cogs\n\nPlease use the new link to install it."
 }
