@@ -1,0 +1,20 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Cog-Creators/Red-DiscordBot/V3/develop/schema/red_cog.schema.json",
+    "author": [
+        "Vexed (Vexed#9000)"
+    ],
+    "short": "Beta cog - Play podcasts in Discord voice channels.",
+    "description": "Beta cog - Play podcasts in Discord voice channels.",
+    "end_user_data_statement": "This cog does not persistently store data or metadata about users.",
+    "install_msg": "Thanks for installing! This cog is in beta and requires the Audio API and will otherwise fail to load.\n\n~~This cog has docs! Check them out at <https://go.vexcodes.com/c/podcasts>~~",
+    "name": "Podcasts",
+    "requirements": [
+        "feedparser",
+        "cachetools",
+        "asyncache"
+    ],
+    "tags": [
+        "audio",
+        "voice"
+    ]
+}
