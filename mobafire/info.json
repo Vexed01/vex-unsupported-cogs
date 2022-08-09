@@ -1,0 +1,8 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Cog-Creators/Red-DiscordBot/V3/develop/schema/red_cog.schema.json",
+    "author": [
+        "Vexed (Vexed#3211)"
+    ],
+    "name": "MOBAFire",
+    "install_msg": "Get started with `[p]mobafireextract`, or just `[p]mfextract`."
+}
