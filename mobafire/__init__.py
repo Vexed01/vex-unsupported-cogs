@@ -1,12 +1,14 @@
 # one file cog!
 
-from redbot.core.bot import Red
+import asyncio
+from urllib.parse import urlparse
+
+import aiohttp
+import discord
 from redbot.core import commands
+from redbot.core.bot import Red
 from redbot.core.utils.chat_formatting import box, text_to_file
 
-import discord
-import aiohttp, asyncio
-from urllib.parse import urlparse
 
 async def setup(bot: Red):
     ret = bot.add_cog(MOBAFire(bot))
@@ -38,7 +40,11 @@ class MOBAFire(commands.Cog):
             await ctx.send("Invalid link")
             return
 
-        async with self.session.post("https://www.binaryalien.net/buildcopier/api/mobafire", headers={"content-type": "application/json"},data=f'{{"output-title":"","url":"{parsed.geturl()}","target-build-index":"1"}}') as resp:
+        async with self.session.post(
+            "https://www.binaryalien.net/buildcopier/api/mobafire",
+            headers={"content-type": "application/json"},
+            data=f'{{"output-title":"","url":"{parsed.geturl()}","build-index":"1"}}',
+        ) as resp:
             try:
                 data = await resp.text()
             except Exception:
